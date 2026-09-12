@@ -487,21 +487,23 @@
             santriText = absenArr.map(s => `${s.nama} (${s.ket})`).join("\n");
         }
 
-        const template = `LAPORAN HARIAN WALI KELAS
+        const template = `*LAPORAN HARIAN WALI KELAS*
 
 📅 Hari/Tanggal: ${tanggal}
 🏫 Kelas: ${kelas}
 👤 Wali Kelas: ${waliKelas}
 
-1. SANTRI TIDAK HADIR
+*1. SANTRI TIDAK HADIR*
 * Nama : 
 ${santriText}
 
-2. KONDISI RUANG KELAS
+*2. KONDISI RUANG KELAS*
 * Kebersihan: ${kebersihan}
 * Kerapian: ${kerapian}
+
 📸 Foto kondisi kelas: 
- PERMASALAHAN LAINNYA
+
+*PERMASALAHAN LAINNYA*
 •${permasalahan}
 
 Demikian laporan harian disampaikan. جزاكم الله خيرا`;
