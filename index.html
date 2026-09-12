@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Wali Kelas - SMP Islam Terpadu Putra Abu Hurairah Mataram</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981; /* Modern Green */
+            --primary-hover: #059669;
+            --secondary: #3b82f6; /* Modern Blue */
+            --secondary-hover: #2563eb;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #d1d5db;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background-color: #f9fafb;
+        }
+
+        input[type="text"]:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+            background-color: #ffffff;
+        }
+
+        .row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .row > div {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 1.05rem;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-hover);
+        }
+
+        .card-inner {
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .absent-list {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .absent-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f3f4f6;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-remove {
+            background-color: white;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        .btn-remove:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .output-container {
+            margin-top: 30px;
+            border-top: 2px dashed #e5e7eb;
+            padding-top: 25px;
+        }
+
+        textarea#outputHasil {
+            height: 280px;
+            resize: vertical;
+            background-color: #f8fafc;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 20px; }
+            h2 { font-size: 1.3rem; }
+            .row > div { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Laporan Harian Wali Kelas</h2>
+    <p class="subtitle">SMP Islam Terpadu Putra Abu Hurairah Mataram</p>
+
+    <div class="row form-group">
+        <div>
+            <label>Tanggal Laporan</label>
+            <input type="text" id="tanggal" readonly style="cursor: not-allowed; color: var(--text-muted);">
+        </div>
+        <div>
+            <label>Pilih Kelas</label>
+            <select id="kelas" onchange="handleKelasChange()">
+                <option value="">-- Pilih Kelas --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Nama Wali Kelas</label>
+        <input type="text" id="waliKelas" placeholder="Pilih kelas untuk mengisi otomatis..." readonly style="cursor: not-allowed; color: var(--text-muted);">
+    </div>
+
+    <div class="card-inner">
+        <label>Daftar Santri Tidak Hadir</label>
+        <div class="row" style="margin-bottom: 10px;">
+            <div style="flex: 2;">
+                <select id="namaSantri">
+                    <option value="">-- Pilih Santri --</option>
+                </select>
+            </div>
+            <div style="flex: 1;">
+                <select id="keterangan">
+                    <option value="s">Sakit (s)</option>
+                    <option value="i">Izin (i)</option>
+                    <option value="a">Alpa (a)</option>
+                </select>
+            </div>
+        </div>
+        <button type="button" class="btn-secondary" onclick="tambahSantri()">+ Tambah Santri</button>
+        
+        <div class="absent-list" id="daftarTidakHadir">
+            <div style="color: var(--text-muted); font-style: italic; text-align: center; padding: 10px 0;">Belum ada santri yang ditambahkan</div>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div>
+            <label>Kebersihan Kelas</label>
+            <select id="kebersihan">
+                <option value="baik">Baik</option>
+                <option value="cukup">Cukup</option>
+                <option value="kurang">Kurang</option>
+            </select>
+        </div>
+        <div>
+            <label>Kerapian Kelas</label>
+            <select id="kerapian">
+                <option value="baik">Baik</option>
+                <option value="cukup">Cukup</option>
+                <option value="kurang">Kurang</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Permasalahan Lainnya</label>
+        <input type="text" id="permasalahan" value="tidak ada" placeholder="Contoh: tidak ada">
+    </div>
+
+    <button type="button" class="btn-primary" onclick="generateLaporan()">Buat Laporan</button>
+
+    <div class="output-container">
+        <label>Hasil Laporan (Siap Salin)</label>
+        <textarea id="outputHasil"></textarea>
+        <button class="btn-primary" style="background-color: #25D366; margin-top: 15px;" onclick="copyToWA()">📋 Salin ke WhatsApp</button>
+    </div>
+</div>
+
+<script>
+    const WALI_KELAS_MAP = {
+        "Hairul Umam Insani, S. Pd.": "7A", "Hafizh Bagis, Lc.": "7B", "Salman, S. Pd. I.": "7C",
+        "Haqikahurrahman, S. Pd.": "7D", "Zulkarnaen Teguh W, S. Pd.": "7E",
+        "Firman, S. Pd.": "8A", "Syahrul Hasyim, Lc.": "8B", "Adiandri Suhaili, M. Pd.": "8C",
+        "M. Tahir, M. Pd.": "8D", "Ahmad Mahsan Haikal, Lc.": "8E",
+        "Saifuddin Hidayat, S. Pd.": "9A", "Syamsul Bahri, Lc.": "9B",
+        "Ludfi Rusdiyono, S. Pd.": "9C", "Ahmad Arroiyan, Lc.": "9D"
+    };
+
+    // Balik mapping agar formatnya { "7A": "Hairul Umam Insani, S. Pd." }
+    const KELAS_WALI_MAP = {};
+    for (const [wali, kelas] of Object.entries(WALI_KELAS_MAP)) {
+        KELAS_WALI_MAP[kelas] = wali;
+    }
+
+    const DATA_SANTRI = {
+        "7A": ["ABDULLAH RASYIQUL AKRAM", "ABDUROHMAN KHOLIL", "ABDURROZZAQ", "ADRIAN FACHRY AS'ARY", "ALBY FACHRIE", "ALIF ZIYAD ZAEN", "ATHAR RIZKY YUDHISTIRA", "AUFA AL HAMIDI", "BINTANG JULIANT ALFARABI", "FADHIL NASHIR ALBANI", "FAIZ ARFAN HAIKAL", "FAYADH ELFATA", "HADZUKI ADITYA RAMADHAN", "HAFIDS AL GHAZALI", "HARITS ARKAAN", "HUSAIN ANAKI", "LALU IQRA ILYAS", "M. GHAISAN INDIKA HILMY", "MU'ADZ", "MUH. GHAFAR ARIEF SETIOBUDI", "MUHAMMAD ADIB", "MUHAMMAD AL FAIZ", "MUHAMMAD ALFIAN RIZQI", "MUHAMMAD AQIL", "MUHAMMAD AQIL ALMAIR RAMADHAN", "MUHAMMAD NAYAKA HAKAM", "MUHAMMAD TRISTAN ALIEF PRABOWO", "MUHAMMAD ZAKY AL HAFIZH FAUZAN", "NADYANDA MUCHALI AL MAJIID", "RESKI ARSY NEGARA", "SULTAN FAIZULLAH ATMIJOYO", "SYABANIN ALKAUTSAR IRAWAN", "SYAFIIQ AL-ATSARI", "UKASYAH ABDURROHMAN", "UWAIS", "YUSUF ABDURRAHMAN FANSURI"],
+        "7B": ["AHMAD KADHAFI BAFADHAL", "AHMAD QAIS ALHADI", "AKBAR MUHAMMAD FAISAL", "ALKA ZAHRAN SYAFIQ", "ANTO APANSA", "BISMA ABDILLAH SURA", "GIOFANDI AHNAF SYATIR", "IMRAN UMAR ALKATIRI", "JIKRAN ALFATIH MUDASIR", "KHANUKH MAHIR BAHASWAN", "LALU ABDURRAHMAN DZAKI KHAIRI", "LALU MUHAMMAD ISHAM HAWARI", "LALU TSAQIB AL MUHALY", "M. SHAFIQ MUBARAK", "M. SULTHAN HABIBULLAH", "M.IBAD FA'IQ ATHAR", "MIFZAL", "MUH.FAZRIL ILHAM", "MUHAMAD OZIL", "MUHAMMAD AIDIL GIFARI", "MUHAMMAD AKROM AL-FARUQ", "MUHAMMAD FAUZAN", "MUHAMMAD FAWWAZ ARRAYAN", "MUHAMMAD NABIIL SETIAWAN", "MUHAMMAD NAUFAL AL KHAIRY", "NAUFAL AL FAIZ", "PRANAJA AGHA SAFARAZ", "RADITYA NAUFAL ABIYYU", "RASYA MAULANA PRASETYO", "SAJID", "SYAFIQ ALBANY MUBARAK", "VIRZAN AL AZKA", "WAFI 'ABDULLOH", "YUSUF GIBRAN RAMADHAN", "ZAKI SALEH", "ZUBAIR AL FAYYAD"],
+        "7C": ["ABBASHY RIZQILLAH JULIANGKARA", "ABIDULLAH IBRAHIM HANIF", "ABRISAM FAQIH ABBASY", "ADHWA ASHAAD KAMIDIA", "AFKAR HAFIDZUL FAYYAD", "AHMAD AL GHAZALI", "AHSAN ABDULLAH", "ALI ABDULLAH AL BAKRI", "AMIR MUJAHID", "ANAS MUTTAQIN", "BAYU SAFA BUDI OZORA", "DANIL ZAKY AL HANIF", "FADHIL JAMAL HIZAM", "FATHIN ABDULLAH", "FATIH ARDIANSYAH MALIK", "HAIRUL AZZAM", "HAFIZ PRATAMA DINTAHA", "ISAM AL KHUSYAIRI", "KEENAN DANIAL ALFAREZEL", "KHAERUL HADI JAELANI", "MU'ADZ RIFKI AL BAKRI", "MUH. SHOLYHIN", "MUHAMMAD ABDURRAHMAN ABBASYI", "MUHAMMAD DHAFFA DZAKI PUTRA SANI", "MUHAMMAD EMIRSYAH SYAWAL", "MUHAMMAD FADLILLAH", "MUHAMMAD FAIZI ATHAR AL AYYUBI", "MUHAMMAD ILYAS", "MUHAMMAD QOIS FIRDAUS", "MUHAMMAD RUSYDI THALIB", "MUHAMMAD YAZID ALI", "NIZAR", "PATIH MUHAMMAD", "ZAIM MUBARAK IBNU RASYID"],
+        "7D": ["ABDURRAHMAN HALIM", "ABDURRAHMAN HANIF", "ABU DAFIF KHOLIS AR-ROTANIYY", "ADHITYA FATHAN NURRIZKILLAH", "AHMAD SULTAN NAZHIRUL ASROFI", "AINAN NEVAN INDRAJAYA", "ALBY RIEZKY RAMADHAN", "AMMAR", "DZAKY MAHESWARA", "FATHIAN AL AZZAM", "HAFUZA AGHANDHI ISPARWONO", "ILHAMY MUHAMMAD WAFI", "KHAIZURAN AZFARIL HAKIM", "KHALIL ABDUL JABBAR", "LALU MUHAMMAD FAWAAZ MUSTHOFA", "M. DHAFFA GIBRAN ARANTA", "M. HISYAM AL FATHIR", "M. SALMAN AZKAMIL", "M. AUFAR TRI IRZANI", "M. GIYAS AUFA", "MUHAMMAD AFIIF AL-HABSYI", "MUHAMMAD AHSAN ZAKI", "MUHAMMAD ALVIN FAIZ", "MUHAMMAD FALIH KASYFUL ISLAM", "MUHAMMAD FAQIH RIZQULLAH", "MUHAMMAD HAYYAN", "MUHAMMAD RAIHAN AL FATIH", "MUZAKKAR HALIM KHAIRI", "RAZA ARDYLAN AMIR", "SAMI", "SAMIR JAZLAN AL- HADI", "SULTAN MUHAMMAD ALFATI", "TIHAMI ABDUL MUZANNI A", "UBAIDURRAHMAN", "UMAR AL FARUQ"],
+        "7E": ["ABDURRAHMAN DIANUL GIBRAN", "ABIE ALFAYAD", "AHMAD DHANIS ALFARUQ", "AHMAD ZOFRAN JIHADI", "AHMAD ZUBAIR", "AZKA RAHARDHIAN ACHMAD", "AZKA ZAHRAN SYAFIQ", "DAFFA IBNU HAFIDZ", "DANIAL FARUQ ABDURROHMAN", "FARDAN FADLI", "FARUQ NABIL ARFADANA", "FATIR KAHFI RUMI", "HANIF ABDURRAHMAN", "HUSEIN ALI FARIS", "KHAIRIL INSANI RAMADHAN", "LALU APTA PAWANA SUPRON", "MUHAMAD ZIZFAN YADI MULIA", "MUHAMMAD ALGHAZALI SALMIN", "MUHAMMAD AMMAR", "MUHAMMAD ATAYA EL AZZAM", "MUHAMMAD BILAL HARYANTO", "MUHAMMAD FATHIIN RAMADHANI", "MUHAMMAD GALIH AS SAKHA", "MUHAMMAD KENZIE MAHIRA", "MUHAMMAD NAUFAL GHANI", "MUHAMMAD YUZARSIF", "MUHAMMAD ZAID ISA", "NIRHAM SAJIDAN", "RADEN ALI FIRAS RAHMATULLAH", "RAMBU RAYA RABBANI", "RIZKY RAMADHAN", "TARAGA PAMENGAS PIRATA", "THUFAIL ALBYAKSA DEBERNADI", "UMAR", "ZIYAN HAFIZURRAHMAN"],
+        "8A": ["ABDULLAH AZZAM AL MANAR", "ABDURRAHMAN AL FAYADH", "ABDURRAHMAN FAQIH ALBANY", "ABIL MAJDI", "ALIEF HAFEES DINATA", "ARIF ALFIAN", "AZKA SURYA LOGIKA", "AZMI SUHAIL HIDAYAT", "AZZAM FAISHAL", "DEDEN HARDIANTO", "DINAN HADYAN HANIF", "HANIF ALTHAF RAMADHANI", "ILYAS AL-HAKIM", "ISA FEHER BAGIS", "LALU DANISH MIRZA AL FATIH MARTADINATA", "LALU IYAS ALI AHMAD", "M. DETHA ALGHIFARY", "M. FATONI", "MUHAMMAD AL AFIIF MAULANA", "MUHAMMAD ALBIMAWY", "MUHAMMAD ALFA AL HAWARI", "MUHAMMAD BILAL", "MUHAMMAD DHORFAN FUADY", "MUHAMMAD IRSYAD HAFIDZ", "MUHAMMAD IZWAR RASYID", "MUHAMMAD LUTHFI APRIAN NABHAN", "MUHAMMAD NIZZAM KHARISMA", "MUHAMMAD SULTAN", "MUHAMMAD ZHAFIR ATZANY", "MUSTAGFIRI ASROR", "NABHAN KHALIL", "NIZAM", "TAMIM ABDILLAH", "THORIQ SALAM", "UMAIR AL JUNDI", "YAZID AWAD SEWET"],
+        "8B": ["ABBAS", "ABDUL AZIZULHAKIM", "ABDURRAHMAN KHADAFI", "ABDURROHMAN AR-ROSYAD WARDOYO", "AHMAD MUSAYYIB", "AHMAD NUBLI ALFATIH", "AZHALLAH ZAYAN AGHLA", "DHANIZAM AZ ZIKRI KASYAFANI AHMAD", "FIRAS FAWAZ FATIH", "FURQAN ALFATIR", "HISYAM RIZKI HIDAYAT", "KHALID ATTAURIQ", "KHAN KARTAWIJAYA MADANI", "MUHAMAD ILHAM BINTANG", "MUHAMAD REZKY AFKHAR", "MUHAMMAD AL FATIH", "MUHAMMAD AZAM FARZANA", "MUHAMMAD AZMI", "MUHAMMAD DINZA ALKHALIFI", "MUHAMMAD FACHRI EL FIRAZ", "MUHAMMAD FADHIL", "MUHAMMAD FARHAN FURQON", "MUHAMMAD FATHIN RIDWAN", "MUHAMMAD HAMIZ JAFAR", "MUHAMMAD IBNU FARIS", "MUHAMMAD RAYHAN RAFASYA AL ZHAFRAN", "MUHAMMAD SALEH", "NALA FAUZAN ADZIMA", "NARARYA AZKA RAMADHAN", "NIDZAM QOSIM", "SHALLBAR MALIK JABBAR ISMAIL", "SYAHIDURRAHMAN", "TYAZQIRO ALIF SURYADIN", "UNAIS HANIF BUDIMAN", "YAZID ABDURRAHMAN", "ZAIM OZIL SYAHMI"],
+        "8C": ["ABDURRAHMAN AL-FURQON", "AHDA SYAKIRUL AFKAR", "AINUL RIZKY", "ALI FAHREZA RAMADHAN", "AUFAR BILAL SYAFIQ", "BARIQ ABDUL AFIF", "DANARHADIYYA AGRI", "EMHA RAYYAN HAIKAL AL HAKIM", "FIRDAUSI NUZULA", "FITRAH KAMULA TALIANG", "HAQQY HAYAZA", "HASAN USMAN SEWET", "KHAIRIL MIZAN", "KINAN SAMAU'AL RAHMAN", "MUHAMMAD ABBAD", "MUHAMMAD ALVITO ATHARIZ BAYNUKHO", "MUHAMMAD ARFA AL FAWWAZI", "MUHAMMAD DIFA ELRAFIF", "MUHAMMAD FADHIL", "MUHAMMAD FAID ADLIHAQ", "MUHAMMAD HAFIDZ", "MUHAMMAD ILHAM BADRUSSALAM", "MUHAMMAD KHALIFA GHAISANI", "MUHAMMAD SALMAN AL FARISI", "MUSYARI ROSYID", "NAUFAL ADINURRAHMAN", "NAYIF ALQADRI", "QUSAY", "RASHA MUHAMMAD ATHAYA", "SALEM OSAMA MA'DAN", "SALIM ABDULLAH GUNAWAN", "SYAHMI ZABIR", "SYAKIR", "UWAYS ABDURRAHMAN", "WIFA ASYROFI"],
+        "8D": ["ALFATH BHUMI ARSAKHA", "ARSHALAN MUHAMMAD FERALVO", "ATAN ALFATIH TOSAMAN", "ATMADEVA HAYUMERTA", "AUFA IMADUDDIN", "BUMI ABDI NEGARA", "DZAKWAN TSAMIR ARRAHMAN", "FATHIR AKMAL RABBANI", "FATHIR ALI AL HUSSEINI", "FAWWAZ BADRUTAMAM", "FAYAD FADILAH FAIRUZ AMANULLAH", "HANIF HAWARI", "KHALID ALHUDRI", "LALU AKHTAR TSAQIF GUNAWAN", "LALU AZZAM ABDURRAASYID ROMADHONI", "LALU MUHAMMAD ZEVIAN ALTHAF", "M APRIANSYAH", "M. DZAKWAN KHAFADY", "M. SAYYID RAZIQ AL FATIH", "MAULANA KHALIL ACHMAD", "MUHAMAD RIZKY KATSIRO", "MUHAMMAD AFLAH KHALAF KASMAN", "MUHAMMAD FARID AZFAR", "MUHAMMAD HABIB ASLAM", "MUHAMMAD LUKMAN ALFAIQ", "MUHAMMAD NAYYIF", "MUHAMMAD RAIHAN PUTRA FIRMANDA", "MUHAMMAD RIZKI ANUGRAH", "MUHAMMAD RIZKY ALHAKIM", "MUHAMMAD SYAFIQ ARKAN", "MUHAMMAD SYAHRIZA RIVAI", "NIKO SATYA ATMAJA", "RIDHO MARTA DINATA", "YUSUF KAMIL", "ZAID UBAIDILLAH"],
+        "8E": ["ABDURRAHMAN AHMAD", "ABDURRAHMAN ZAYID", "ADITYA PUTRA WIDANI", "ADZKA INSANUL ARIF", "AMMAR ABDURRAZZAQ", "ANUGERAH RAZA KHASYI", "ATFAL RAMADHAN", "ATHIF", "AYMAN SULTAN AYUBI", "BILAL", "DEKA SAMUDERA", "FATHI AIMAN EL HARIS", "FATHIR DZAKWAN RAMADHAN", "FATIH EL ROZZA", "FI ZHILALIT TAUHID", "FURQON AZKA IBRAHIM", "IBNU NABIL MANULLANG", "JA'FAR ABDUL HALIM", "KAFKA APUILA", "LALU BASRI RAHMAN", "LALU SANDY AL FARISI", "M. ALI SAPUTRA HIDAYAT", "M. ALIF SIDIK", "M. RIZKY FANRI ADHA", "MOCHAMMAD RAYSHA OEMAR", "MUH.UWAIS AL QORNI", "MUHAMMAD ARSYAD AL BUKHORI", "MUHAMMAD FATHIH", "MUHAMMAD GHOFIQI ARRAYYAN", "MUHAMMAD RAFIE IBRAHIM", "MUHAMMAD UWAIS AL QORNY", "MUHAMMAD ZIBAN", "MUHAMMAD ZIDAN ALI AKBAR", "NAUFAL RIZKY ADZ-DZAKY", "NAVILA AL KAUSAR"],
+        "9A": ["ABDILLAH FAWAZ ADZZIKRY", "AHMAD ALIFADWAN DZAKIRMANSYAH", "AHZA IMTIAS", "ALTAIR FATIH MUHAMMAD", "AMIRUL SHOLEH", "ASLAM AROFI", "BAGAS ERVITO", "FARIS RAFIE AS'ARY", "FAYYADH IFAT ASSYARIF", "GHAISAN HARISANDY", "IYADH IBNU MUNAWAR", "KHAIRIL FAHMI HUDA", "L. FERDIANSYAH AMMAR AL-FATIH", "LALU EZRA RAFEE AL RASYID", "M. FADHIL ZAHRAN", "M. FIKRI AZHARI", "M. NAYAKA ABHIYANTA AL FAYYADH", "M. ZIYAN HALIM", "MOH. ZAKY FIRMANSYAH", "MUHAMMAD", "MUHAMMAD AHLAM DZULFADLI", "MUHAMMAD ARKHA IBRA SURYA", "MUHAMMAD BAGAS PRATAMA", "MUHAMMAD FATHIN", "MUHAMMAD ZAHY IZDIHAR SYARIEF", "MUHAMMAD ZHAFRAN ARKAN", "TEGUH LINGGA AZHARI", "UMAIR", "ZENITH ZETTA RINJANI"],
+        "9B": ["ABDULLAH FAWWAZ SALIM", "ABDURAHIM ZHORIF", "AFFAN EL RAFIF", "AHMAD ABAS", "ARIF RAHMAN", "DIHYAH AFNAN", "FATHIR MUBARAK BIN TAHIR", "HAIKAL KAMAL", "HUDZAIFAH AL GHAZWAN", "HUMAINI HANDREANANTO", "HUSAIN ABDURACHMAN SEWET", "IZAS MUHAMAD ALFATIH", "JIYAD MUNTASHIR", "M. FAHARIL", "M. RAYHAN AS-SYAWAL", "M. ZIYADFAIZAN ALFIJMI", "MOH AMIN ALKHOLIDIN", "MU'AFA KHOIR MIDROR", "MUHAMMAD ALFARIDZZY", "MUHAMMAD ALTAF", "MUHAMMAD FADIL AL FARISI", "MUHAMMAD ISA", "MUHAMMAD YUSUF MIRZA HIDAYATULLAH", "MUHAMMAD ZIAN ABDULLAH", "NADHIF SYAIKUL ISLAM", "NAUFAL FAUZI", "RAZZAN ABIYYU ASSABIL", "RIFQY HANIF MAULANA", "RIJAL AYMAN HASAN", "SALEH FATHY BOBSAID", "SYAMIL YASSIR BALBEID", "THORIQ MOHAMAD ZIYAD", "YAZID ACHMAD SYAFIQ BAGIS"],
+        "9C": ["ADZKA RAFA AL FATIH", "AFFAN KHATIBUL UMAM", "AHMAD FAWWAZ AFIFI", "AYYUB", "AZFARI AL BUKHARI", "DANIAL AZZAM ADYATMA", "FAHIM ABDULLOH", "FAHRI ZAFRAN KHAIRI", "FAIRUZ ALMA DZAKI", "FARZAN ALMER SHAKY", "FATHIR SAYYAF HAJID", "FAWWAZ SYAMIL GHIFARI", "HANIF RAZIN ATHALLAH", "IKHWAN ZHAFRAN ARIYANTONO", "ILYAS HELMI HIZAM", "ILYAS MUJAHID AKBAR", "JAVA RAJENDRA AL WAFI", "LALU MUHAMMAD YAZID MAULANA", "MUHAMAD RHEZA DWI PUTRA", "MUHAMMAD DAFFA AR RAYYAN", "MUHAMMAD FARRAS ALIMUDDIN", "MUHAMMAD JALILUDIN AL HAFIDZ", "MUHAMMAD MUSA", "MUHAMMAD RIFAL FADLAN", "MUHAMMAD RIFQI AKBAR", "MUHAMMAD YAFI' 'AMMAR Y.", "MUHAMMAD ZAIN", "MUJAHIDIN", "MUSH'AB RIFKI AL BAKRI", "SABIQ ELFATTAN KURNIAWAN", "UWAIS BIN LUTHFIE ABDAT", "YAZID ABDUL QODIR", "ZIYAN FAKHRI"],
+        "9D": ["ABDULLAH HIDAYAT", "ABDULLAH SYAMIL HAIDAR", "AGUNG RIZKY PRASOJO", "AHMAD RAFIQ", "AKHTAR NIZAM BUKHARI", "ALBY FACHRI", "ALIF SYAFIQ IBRAHIM", "ALIIF RASYID MUZHAFFAR", "ARVIN NAOVAL SARIP", "AUFAR AZKA SHIDDIQ", "DAVI CHANDRA ELMESSIA", "DAYYAN ALHANIF HARYONO", "DEFRAN AIMAR BAFADAL", "ELANG PUTRA AMRULLAH", "GALIH MAHER ABDULLAH", "GHUDZAMIR NURHAN HAJIRI", "LALU MAHARAYA SAKHA SUADAYA", "MOHAMAD ATHAA ASQOLANIY", "MUH. HILMI", "MUHAMAD HILMI FAIQ TAUFIK", "MUHAMMAD AL FATIH RAHMAN", "MUHAMMAD JIHADUL ISLAM", "MUHAMMAD NAWWAF AL MUSTAWI", "MUHAMMAD YUSUF BALWE'EL", "NUR ADAM AL-KHALIDY", "RAAFA ASYURO", "SAYYID ABDILLAH HANIF", "SUDAIS GHIZLAN GHIFARRY", "SYAFIIQ ABDULLAH AL BAKRI", "UQBAH UBAIDILLAH KAUTSAR", "USAID", "YUSUF MUSTAFA"]
+    };
+
+    let absenArr = [];
+
+    function setTanggalHariIni() {
+        const days = ['minggu', 'senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'];
+        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        
+        const today = new Date();
+        const dayName = days[today.getDay()];
+        const day = today.getDate();
+        const monthName = months[today.getMonth()];
+        const year = today.getFullYear();
+        
+        document.getElementById('tanggal').value = `${dayName}, ${day} ${monthName} ${year}`;
+    }
+
+    function populateKelas() {
+        const kelasSelect = document.getElementById('kelas');
+        Object.keys(DATA_SANTRI).forEach(kelas => {
+            let option = document.createElement('option');
+            option.value = kelas;
+            option.text = kelas;
+            kelasSelect.appendChild(option);
+        });
+    }
+
+    function handleKelasChange() {
+        const kelas = document.getElementById('kelas').value;
+        
+        // Simpan pilihan kelas terakhir ke Local Storage
+        if(kelas) {
+            localStorage.setItem('savedKelas', kelas);
+        } else {
+            localStorage.removeItem('savedKelas');
+        }
+
+        // Auto isi Wali Kelas
+        const inputWali = document.getElementById('waliKelas');
+        if (kelas && KELAS_WALI_MAP[kelas]) {
+            inputWali.value = KELAS_WALI_MAP[kelas];
+        } else {
+            inputWali.value = "";
+        }
+
+        // Perbarui daftar nama santri
+        const santriSelect = document.getElementById('namaSantri');
+        santriSelect.innerHTML = '<option value="">-- Pilih Santri --</option>';
+        
+        if (kelas && DATA_SANTRI[kelas]) {
+            DATA_SANTRI[kelas].forEach(santri => {
+                let namaFormatted = santri.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+                let option = document.createElement('option');
+                option.value = namaFormatted;
+                option.text = namaFormatted;
+                santriSelect.appendChild(option);
+            });
+        }
+        
+        // Reset absen jika kelas diganti
+        absenArr = [];
+        renderAbsen();
+    }
+
+    function tambahSantri() {
+        const nama = document.getElementById('namaSantri').value;
+        const ket = document.getElementById('keterangan').value;
+        
+        if (!nama) {
+            alert("Pilih nama santri terlebih dahulu!");
+            return;
+        }
+
+        if(absenArr.some(s => s.nama === nama)) {
+            alert("Santri ini sudah ada di daftar!");
+            return;
+        }
+
+        absenArr.push({ nama, ket });
+        renderAbsen();
+        document.getElementById('namaSantri').value = ''; // Reset select
+    }
+
+    function hapusSantri(index) {
+        absenArr.splice(index, 1);
+        renderAbsen();
+    }
+
+    function renderAbsen() {
+        const container = document.getElementById('daftarTidakHadir');
+        if (absenArr.length === 0) {
+            container.innerHTML = '<div style="color: var(--text-muted); font-style: italic; text-align: center; padding: 10px 0;">Belum ada santri yang ditambahkan</div>';
+            return;
+        }
+
+        container.innerHTML = '';
+        absenArr.forEach((s, idx) => {
+            const div = document.createElement('div');
+            div.className = 'absent-item';
+            div.innerHTML = `
+                <span>${s.nama} <strong>(${s.ket})</strong></span>
+                <button type="button" class="btn-remove" onclick="hapusSantri(${idx})">Hapus</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function generateLaporan() {
+        const tanggal = document.getElementById('tanggal').value;
+        const kelas = document.getElementById('kelas').value;
+        const waliKelas = document.getElementById('waliKelas').value;
+        const kebersihan = document.getElementById('kebersihan').value;
+        const kerapian = document.getElementById('kerapian').value;
+        const permasalahan = document.getElementById('permasalahan').value || "tidak ada";
+
+        if (!kelas) {
+            alert("Harap pilih kelas terlebih dahulu!");
+            return;
+        }
+
+        let santriText = "";
+        if (absenArr.length === 0) {
+            santriText = "Nihil";
+        } else {
+            santriText = absenArr.map(s => `${s.nama} (${s.ket})`).join("\n");
+        }
+
+        const template = `LAPORAN HARIAN WALI KELAS
+
+📅 Hari/Tanggal: ${tanggal}
+🏫 Kelas: ${kelas}
+👤 Wali Kelas: ${waliKelas}
+
+1. SANTRI TIDAK HADIR
+* Nama : 
+${santriText}
+
+2. KONDISI RUANG KELAS
+* Kebersihan: ${kebersihan}
+* Kerapian: ${kerapian}
+📸 Foto kondisi kelas: 
+ PERMASALAHAN LAINNYA
+•${permasalahan}
+
+Demikian laporan harian disampaikan. جزاكم الله خيرا`;
+
+        document.getElementById('outputHasil').value = template;
+    }
+
+    function copyToWA() {
+        const copyText = document.getElementById("outputHasil");
+        if(copyText.value === "") {
+            alert("Silakan klik 'Buat Laporan' terlebih dahulu.");
+            return;
+        }
+        
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        
+        try {
+            document.execCommand("copy");
+            alert("Laporan berhasil disalin! Silakan tempel (paste) di WhatsApp.");
+        } catch (err) {
+            alert("Gagal menyalin otomatis. Silakan salin secara manual.");
+        }
+    }
+
+    // Eksekusi otomatis saat halaman dimuat
+    window.onload = function() {
+        setTanggalHariIni();
+        populateKelas();
+        
+        // Membaca Local Storage
+        const savedKelas = localStorage.getItem('savedKelas');
+        if (savedKelas && DATA_SANTRI[savedKelas]) {
+            document.getElementById('kelas').value = savedKelas;
+            handleKelasChange(); // Memicu auto-fill wali kelas dan daftar santri
+        }
+    };
+</script>
+
+</body>
+</html>
